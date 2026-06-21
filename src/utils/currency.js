@@ -1,5 +1,5 @@
 export function formatPHP(amount) {
-  return '₱' + new Intl.NumberFormat('en-PH', {
+  return new Intl.NumberFormat('en-PH', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(amount)

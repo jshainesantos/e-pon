@@ -1,4 +1,4 @@
-import { formatPHP } from '../utils/currency'
+import { PHPAmount } from './PesoSign'
 
 export function TotalBalance({ total, accounts, types, hidden }) {
   const breakdown = types
@@ -15,9 +15,7 @@ export function TotalBalance({ total, accounts, types, hidden }) {
       <div className="pointer-events-none absolute -bottom-10 -right-4 h-32 w-32 rounded-full bg-white/5" />
 
       <p className="text-sm font-medium text-indigo-200">Total Balance</p>
-      <p className={`mt-1 font-mono text-3xl font-bold tabular-nums tracking-tight transition-all select-none ${hidden ? 'blur-md' : ''}`}>
-        {formatPHP(total)}
-      </p>
+      <PHPAmount amount={total} className={`mt-1 font-mono text-3xl font-bold tabular-nums tracking-tight transition-all select-none ${hidden ? 'blur-md' : ''}`} />
       <p className="mt-1 text-xs text-indigo-200">
         {accounts.length} {accounts.length === 1 ? 'account' : 'accounts'} linked
       </p>
@@ -27,9 +25,7 @@ export function TotalBalance({ total, accounts, types, hidden }) {
           {breakdown.map(t => (
             <div key={t.value} className="rounded-xl bg-white/10 px-3 py-2">
               <span className="block truncate text-xs font-medium text-indigo-200">{t.label}</span>
-              <span className={`mt-0.5 block font-mono text-sm font-semibold tabular-nums text-white transition-all select-none ${hidden ? 'blur-sm' : ''}`}>
-                {formatPHP(t.sum)}
-              </span>
+              <PHPAmount amount={t.sum} className={`mt-0.5 block font-mono text-sm font-semibold tabular-nums text-white transition-all select-none ${hidden ? 'blur-sm' : ''}`} />
             </div>
           ))}
         </div>
