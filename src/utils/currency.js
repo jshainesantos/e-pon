@@ -1,8 +1,7 @@
 export function formatPHP(amount) {
-  return new Intl.NumberFormat('en-PH', {
-    style: 'currency',
-    currency: 'PHP',
+  return '₱' + new Intl.NumberFormat('en-PH', {
     minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   }).format(amount)
 }
 
