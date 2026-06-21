@@ -2,12 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fallback for ₱ (U+20B1) on devices where Inter lacks the glyph */
+@font-face {
+  font-family: 'PesoFallback';
+  src: local('Noto Sans'), local('Roboto'), local('Arial Unicode MS');
+  unicode-range: U+20B1;
+}
+
 @layer base {
   * {
     -webkit-tap-highlight-color: transparent;
   }
 
   body {
+    font-family: 'Inter', 'PesoFallback', 'Noto Sans', sans-serif;
     @apply bg-slate-50 text-slate-900 antialiased;
   }
 }

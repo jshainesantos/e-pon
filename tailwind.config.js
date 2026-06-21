@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'PesoFallback', 'Noto Sans', 'system-ui', 'sans-serif'],
       },
       colors: {
         brand: {
