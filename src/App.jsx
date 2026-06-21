@@ -69,12 +69,16 @@ export default function App() {
         {/* Header */}
         <header className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-600 shadow-md shadow-indigo-200">
-              <PiggyBank size={20} className="text-white" aria-hidden="true" />
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-200">
+              <PiggyBank size={22} className="text-white" aria-hidden="true" />
             </div>
-            <h1 className="font-bold tracking-tight text-slate-900">
-              <span className="text-2xl font-extrabold text-indigo-600 leading-none">E</span><span className="text-lg">-pon</span>
-            </h1>
+            <div>
+              <h1 className="flex items-baseline gap-0.5 leading-none">
+                <span className="text-xl font-black text-indigo-600 tracking-tight">E</span>
+                <span className="text-xl font-bold text-slate-800 tracking-tight">-pon</span>
+              </h1>
+              <p className="mt-0.5 text-[10px] font-medium tracking-widest text-slate-400 uppercase">Savings Tracker</p>
+            </div>
           </div>
 
           <div className="flex items-center gap-2">
