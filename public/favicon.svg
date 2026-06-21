@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="16" fill="#4f46e5"/>
+  <!-- Piggy bank body -->
+  <ellipse cx="30" cy="36" rx="14" ry="12" fill="white" fill-opacity="0.95"/>
+  <!-- Snout -->
+  <ellipse cx="42" cy="38" rx="5" ry="4" fill="white" fill-opacity="0.95"/>
+  <circle cx="40.5" cy="37.5" r="1" fill="#4f46e5"/>
+  <circle cx="43.5" cy="37.5" r="1" fill="#4f46e5"/>
+  <!-- Ear -->
+  <ellipse cx="22" cy="26" rx="4" ry="5" fill="white" fill-opacity="0.95" transform="rotate(-15 22 26)"/>
+  <ellipse cx="22" cy="26" rx="2.5" ry="3.5" fill="#818cf8" transform="rotate(-15 22 26)"/>
+  <!-- Eye -->
+  <circle cx="27" cy="32" r="1.5" fill="#4f46e5"/>
+  <!-- Coin slot -->
+  <rect x="26" y="23" width="8" height="2" rx="1" fill="#4f46e5" fill-opacity="0.4"/>
+  <!-- Legs -->
+  <rect x="23" y="46" width="4" height="5" rx="2" fill="white" fill-opacity="0.95"/>
+  <rect x="29" y="46" width="4" height="5" rx="2" fill="white" fill-opacity="0.95"/>
+  <rect x="35" y="46" width="4" height="5" rx="2" fill="white" fill-opacity="0.95"/>
+  <!-- Tail -->
+  <path d="M16 34 Q10 30 12 24 Q14 18 10 16" stroke="white" stroke-width="2" stroke-linecap="round" fill="none" stroke-opacity="0.9"/>
+</svg>
