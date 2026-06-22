@@ -81,7 +81,7 @@ export function TypePicker({ value, types, onSelect, onAddType, onDeleteType }) 
                 if (e.key === 'Enter') { e.preventDefault(); handleAdd() }
                 if (e.key === 'Escape') { setAdding(false); setNewLabel('') }
               }}
-              className="h-8 w-28 rounded-xl border border-indigo-300 px-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className="h-8 w-28 rounded-xl border border-indigo-300 px-2 text-base focus:outline-none focus:ring-2 focus:ring-indigo-100"
               placeholder="Type name..."
               maxLength={20}
             />

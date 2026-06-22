@@ -29,7 +29,7 @@ export default function App() {
 
   const [modalOpen, setModalOpen]         = useState(false)
   const [editingAccount, setEditingAccount] = useState(null)
-  const [hidden, setHidden]               = useState(false)
+  const [hidden, setHidden]               = useState(() => localStorage.getItem('epon_hidden') === 'true')
   const [sort, setSort]                   = useState('manual')
   const [sortOpen, setSortOpen]           = useState(false)
 
@@ -64,10 +64,10 @@ export default function App() {
 
   return (
     <div className="min-h-dvh bg-slate-50">
-      <div className="mx-auto max-w-md px-4 pb-24 pt-8">
+      <div className="mx-auto max-w-md px-5 pb-24 pt-6">
 
         {/* Header */}
-        <header className="mb-6 flex items-center justify-between">
+        <header className="mb-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-200">
               <PiggyBank size={22} className="text-white" aria-hidden="true" />
@@ -113,7 +113,7 @@ export default function App() {
 
               {/* Hide balances */}
               <button
-                onClick={() => setHidden(h => !h)}
+                onClick={() => setHidden(h => { const next = !h; localStorage.setItem('epon_hidden', next); return next })}
                 className={`flex h-9 w-9 items-center justify-center transition-colors hover:bg-slate-50 active:scale-95 ${hidden ? 'text-indigo-600' : 'text-slate-500'}`}
                 aria-label={hidden ? 'Show balances' : 'Hide balances'}
               >
@@ -138,10 +138,19 @@ export default function App() {
         {/* Account list */}
         <section className="mt-6" aria-label="Accounts list">
           {banks.length === 0 ? (
-            <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 py-16 text-center">
-              <PiggyBank size={36} className="mb-3 text-slate-300" />
-              <p className="text-sm font-medium text-slate-500">No accounts added yet.</p>
-              <p className="mt-1 text-xs text-slate-400">Tap "Add" to get started.</p>
+            <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 py-14 text-center">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50">
+                <PiggyBank size={28} className="text-indigo-400" />
+              </div>
+              <p className="text-sm font-semibold text-slate-700">No accounts yet</p>
+              <p className="mt-1 text-xs text-slate-400">Add your first account to get started.</p>
+              <button
+                onClick={() => { setEditingAccount(null); setModalOpen(true) }}
+                className="mt-5 flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-indigo-200 transition-colors hover:bg-indigo-700 active:scale-95"
+              >
+                <Plus size={15} />
+                Add Account
+              </button>
             </div>
           ) : (
             <DndContext

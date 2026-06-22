@@ -153,7 +153,7 @@ export function AccountModal({ open, onClose, onAdd, onUpdate, editingAccount, t
               id="acct-name"
               value={form.name}
               onChange={e => { setForm(f => ({ ...f, name: e.target.value })); setErrors(err => ({ ...err, name: undefined })) }}
-              className={`w-full rounded-xl border px-3 py-2.5 text-sm focus:outline-none focus:ring-2 ${errors.name ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-indigo-400 focus:ring-indigo-100'}`}
+              className={`w-full rounded-xl border px-3 py-2.5 text-base focus:outline-none focus:ring-2 ${errors.name ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-indigo-400 focus:ring-indigo-100'}`}
               placeholder="e.g. BDO, GCash, Cash"
               autoComplete="off"
             />
@@ -169,7 +169,7 @@ export function AccountModal({ open, onClose, onAdd, onUpdate, editingAccount, t
               id="acct-label"
               value={form.accountName}
               onChange={e => { setForm(f => ({ ...f, accountName: e.target.value })); setErrors(err => ({ ...err, accountName: undefined })) }}
-              className={`w-full rounded-xl border px-3 py-2.5 text-sm focus:outline-none focus:ring-2 ${errors.accountName ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-indigo-400 focus:ring-indigo-100'}`}
+              className={`w-full rounded-xl border px-3 py-2.5 text-base focus:outline-none focus:ring-2 ${errors.accountName ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-indigo-400 focus:ring-indigo-100'}`}
               placeholder="e.g. Savings Account, E-Wallet"
               autoComplete="off"
             />
@@ -200,7 +200,7 @@ export function AccountModal({ open, onClose, onAdd, onUpdate, editingAccount, t
                 type="number"
                 value={form.balance}
                 onChange={e => { setForm(f => ({ ...f, balance: e.target.value })); setErrors(err => ({ ...err, balance: undefined })) }}
-                className={`w-full rounded-xl border py-2.5 pl-7 pr-3 font-mono text-sm focus:outline-none focus:ring-2 ${errors.balance ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-indigo-400 focus:ring-indigo-100'}`}
+                className={`w-full rounded-xl border py-2.5 pl-7 pr-3 font-mono text-base focus:outline-none focus:ring-2 ${errors.balance ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-indigo-400 focus:ring-indigo-100'}`}
                 placeholder="0.00"
                 inputMode="decimal"
                 step="0.01"
