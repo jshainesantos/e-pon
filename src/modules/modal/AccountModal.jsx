@@ -1,18 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { X, Plus, Check } from 'lucide-react'
-import { parsePHP } from '../utils/currency'
-import { TypePicker } from './TypePicker'
-
-const PRESET_COLORS = [
-  '#003087',
-  '#007DFF',
-  '#CC0000',
-  '#00843D',
-  '#FF6B00',
-  '#6366f1',
-  '#0ea5e9',
-  '#8b5cf6',
-]
+import { parsePHP } from '../../utils/format'
+import { ColorPicker } from './ColorPicker'
+import { FormField } from './FormField'
+import { TypePicker } from '../types/TypePicker'
 
 const EMPTY = { name: '', accountName: '', balance: '', color: '#6366f1', type: 'bank' }
 
@@ -25,6 +16,12 @@ function toForm(data) {
     color: data.color ?? '#6366f1',
     type: data.type ?? 'bank',
   }
+}
+
+function inputCls(error) {
+  return `w-full rounded-xl border px-3 py-2.5 text-base focus:outline-none focus:ring-2 ${
+    error ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-indigo-400 focus:ring-indigo-100'
+  }`
 }
 
 export function AccountModal({ open, onClose, onAdd, onUpdate, editingAccount, types, onAddType, onDeleteType }) {
@@ -46,6 +43,11 @@ export function AccountModal({ open, onClose, onAdd, onUpdate, editingAccount, t
     if (open) document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [open, onClose])
+
+  function setField(key, value) {
+    setForm(f => ({ ...f, [key]: value }))
+    setErrors(e => ({ ...e, [key]: undefined }))
+  }
 
   function validate() {
     const errs = {}
@@ -107,99 +109,50 @@ export function AccountModal({ open, onClose, onAdd, onUpdate, editingAccount, t
         </div>
 
         <form onSubmit={handleSubmit} noValidate>
-          {/* Color */}
-          <div className="mb-4">
-            <label className="mb-1.5 block text-xs font-medium text-slate-600">Color</label>
-            <div className="flex flex-wrap gap-2">
-              {PRESET_COLORS.map(c => (
-                <button
-                  key={c}
-                  type="button"
-                  onClick={() => setForm(f => ({ ...f, color: c }))}
-                  className="h-8 w-8 rounded-full border-2 transition-transform active:scale-90"
-                  style={{
-                    backgroundColor: c,
-                    borderColor: form.color === c ? '#1e293b' : 'transparent',
-                    transform: form.color === c ? 'scale(1.15)' : undefined,
-                  }}
-                  aria-label={`Select color ${c}`}
-                  aria-pressed={form.color === c}
-                />
-              ))}
-              <label
-                className="relative flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-dashed border-slate-300 transition-colors hover:border-slate-400"
-                aria-label="Custom color"
-                title="Custom color"
-              >
-                <span className="h-4 w-4 rounded-full" style={{ backgroundColor: form.color }} />
-                <input
-                  type="color"
-                  value={form.color}
-                  onChange={e => setForm(f => ({ ...f, color: e.target.value }))}
-                  className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                  tabIndex={-1}
-                />
-              </label>
-            </div>
-          </div>
+          <ColorPicker value={form.color} onChange={c => setField('color', c)} />
 
-          {/* Name */}
-          <div className="mb-3">
-            <label htmlFor="acct-name" className="mb-1 block text-xs font-medium text-slate-600">
-              Name <span className="text-red-500" aria-hidden="true">*</span>
-            </label>
+          <FormField id="acct-name" label="Name" required error={errors.name}>
             <input
               ref={nameRef}
               id="acct-name"
               value={form.name}
-              onChange={e => { setForm(f => ({ ...f, name: e.target.value })); setErrors(err => ({ ...err, name: undefined })) }}
-              className={`w-full rounded-xl border px-3 py-2.5 text-base focus:outline-none focus:ring-2 ${errors.name ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-indigo-400 focus:ring-indigo-100'}`}
+              onChange={e => setField('name', e.target.value)}
+              className={inputCls(errors.name)}
               placeholder="e.g. BDO, GCash, Cash"
               autoComplete="off"
             />
-            {errors.name && <p className="mt-1 text-xs text-red-500" role="alert">{errors.name}</p>}
-          </div>
+          </FormField>
 
-          {/* Account Name */}
-          <div className="mb-3">
-            <label htmlFor="acct-label" className="mb-1 block text-xs font-medium text-slate-600">
-              Account Name
-            </label>
+          <FormField id="acct-label" label="Account Name" error={errors.accountName}>
             <input
               id="acct-label"
               value={form.accountName}
-              onChange={e => { setForm(f => ({ ...f, accountName: e.target.value })); setErrors(err => ({ ...err, accountName: undefined })) }}
-              className={`w-full rounded-xl border px-3 py-2.5 text-base focus:outline-none focus:ring-2 ${errors.accountName ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-indigo-400 focus:ring-indigo-100'}`}
+              onChange={e => setField('accountName', e.target.value)}
+              className={inputCls(errors.accountName)}
               placeholder="e.g. Savings Account, E-Wallet"
               autoComplete="off"
             />
-            {errors.accountName && <p className="mt-1 text-xs text-red-500" role="alert">{errors.accountName}</p>}
-          </div>
+          </FormField>
 
-          {/* Type */}
           <div className="mb-3">
             <label className="mb-1.5 block text-xs font-medium text-slate-600">Type</label>
             <TypePicker
               value={form.type}
               types={types}
-              onSelect={v => setForm(f => ({ ...f, type: v }))}
-              onAddType={t => { onAddType(t); setForm(f => ({ ...f, type: t.value })) }}
+              onSelect={v => setField('type', v)}
+              onAddType={t => { onAddType(t); setField('type', t.value) }}
               onDeleteType={onDeleteType}
             />
           </div>
 
-          {/* Balance */}
-          <div className="mb-5">
-            <label htmlFor="acct-balance" className="mb-1 block text-xs font-medium text-slate-600">
-              Balance (₱) <span className="text-red-500" aria-hidden="true">*</span>
-            </label>
+          <FormField id="acct-balance" label="Balance (₱)" required error={errors.balance}>
             <div className="relative">
               <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400">₱</span>
               <input
                 id="acct-balance"
                 type="number"
                 value={form.balance}
-                onChange={e => { setForm(f => ({ ...f, balance: e.target.value })); setErrors(err => ({ ...err, balance: undefined })) }}
+                onChange={e => setField('balance', e.target.value)}
                 className={`w-full rounded-xl border py-2.5 pl-7 pr-3 font-mono text-base focus:outline-none focus:ring-2 ${errors.balance ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-indigo-400 focus:ring-indigo-100'}`}
                 placeholder="0.00"
                 inputMode="decimal"
@@ -207,8 +160,7 @@ export function AccountModal({ open, onClose, onAdd, onUpdate, editingAccount, t
                 min="0"
               />
             </div>
-            {errors.balance && <p className="mt-1 text-xs text-red-500" role="alert">{errors.balance}</p>}
-          </div>
+          </FormField>
 
           <button
             type="submit"
