@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { Pencil, Trash2, GripVertical } from 'lucide-react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { PHPAmount } from './PesoSign'
-import { getType } from '../utils/accountTypes'
-import { relativeTime } from '../utils/relativeTime'
+import { PHPAmount } from '../../ui/PesoSign'
+import { getType } from '../../utils/accountTypes'
+import { relativeTime } from '../../utils/format'
 
-export function BankCard({ bank, types, hidden, dragEnabled = true, onEdit, onDelete }) {
+export function AccountCard({ bank, types, hidden, dragEnabled = true, onEdit, onDelete }) {
   const [confirmDelete, setConfirmDelete] = useState(false)
   const typeInfo = getType(bank.type, types)
 
@@ -73,7 +73,10 @@ export function BankCard({ bank, types, hidden, dragEnabled = true, onEdit, onDe
 
       <div className="mt-3 flex items-end justify-between">
         <div>
-          <PHPAmount amount={bank.balance} className={`font-mono text-xl font-bold tabular-nums text-slate-900 transition-all select-none ${hidden ? 'blur-sm' : ''}`} />
+          <PHPAmount
+            amount={bank.balance}
+            className={`font-mono text-xl font-bold tabular-nums text-slate-900 transition-all select-none ${hidden ? 'blur-sm' : ''}`}
+          />
           {bank.updatedAt && (
             <p className="mt-0.5 text-xs text-slate-400">Updated {relativeTime(bank.updatedAt)}</p>
           )}
