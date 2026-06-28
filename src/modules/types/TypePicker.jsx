@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { Plus, Check, X, Pencil } from 'lucide-react'
-import { nextCustomColors, DEFAULT_TYPES } from '../utils/accountTypes'
+import { nextCustomColors, DEFAULT_TYPES } from '../../utils/accountTypes'
 
 const DEFAULT_VALUES = new Set(DEFAULT_TYPES.map(t => t.value))
 
@@ -21,8 +21,7 @@ export function TypePicker({ value, types, onSelect, onAddType, onDeleteType }) 
     const already = types.find(t => t.value === slug || t.label.toLowerCase() === label.toLowerCase())
     if (already) { onSelect(already.value); setAdding(false); setNewLabel(''); return }
     const { color, bgColor } = nextCustomColors()
-    const newType = { value: slug, label, color, bgColor }
-    onAddType(newType)
+    onAddType({ value: slug, label, color, bgColor })
     onSelect(slug)
     setAdding(false)
     setNewLabel('')
