@@ -1,30 +1,21 @@
 import { useState, useEffect } from 'react'
+import { loadStorage, saveStorage } from '../../utils/storage'
 
-const STORAGE_KEY = 'epon_banks'
+const KEY = 'epon_banks'
 const now = () => new Date().toISOString()
 
 function migrate(accounts) {
-  return accounts.map(a => ({
-    type: 'bank',
-    updatedAt: now(),
-    ...a,
-  }))
-}
-
-function load() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? migrate(JSON.parse(raw)) : []
-  } catch {
-    return DEFAULT_BANKS
-  }
+  return accounts.map(a => ({ type: 'bank', updatedAt: now(), ...a }))
 }
 
 export function useBanks() {
-  const [banks, setBanks] = useState(load)
+  const [banks, setBanks] = useState(() => {
+    const raw = loadStorage(KEY, [])
+    return Array.isArray(raw) ? migrate(raw) : []
+  })
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(banks))
+    saveStorage(KEY, banks)
   }, [banks])
 
   function addBank(bank) {
@@ -32,9 +23,7 @@ export function useBanks() {
   }
 
   function updateBank(id, updates) {
-    setBanks(prev => prev.map(b =>
-      b.id === id ? { ...b, ...updates, updatedAt: now() } : b
-    ))
+    setBanks(prev => prev.map(b => b.id === id ? { ...b, ...updates, updatedAt: now() } : b))
   }
 
   function deleteBank(id) {
